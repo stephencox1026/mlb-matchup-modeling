@@ -1,0 +1,106 @@
+---
+description: Run the daily MLB refresh and matchup output package from one trigger phrase
+alwaysApply: true
+---
+
+# Refresh Data + Run Model Macro
+
+When the user message is exactly `refresh the data and run the model`, follow this flow.
+
+## Confirmation Gate
+
+Before running any commands, ask one short confirmation:
+- `Run the refresh + model workflow now for today and return the full output package?`
+
+Only continue if the user confirms.
+
+## Execution Workflow
+
+1. Refresh today's matchup inputs:
+- Run `python3 -u src/fetch_todays_games.py` from project root with the venv active.
+- Confirm output file: `data/raw/todays_matchups.json`.
+
+2. Regenerate matchup predictions:
+- Run `python3 -u src/build_matchup_dashboard.py` from project root with the venv active.
+- Confirm output file: `data/reports/todays_matchup_predictions.json`.
+
+3. Build and return these outputs in chat (all lists ranked by **raw** per-PA probabilities `p_hr`, `p_hit`, `p_xbh` from the predictions JSON; still show `adj_p_*` / `score_*` columns where the daily-output rules specify):
+- Top 25 list: Home Runs (show Adj P(HR), Raw P(HR), Conf score, and Confidence Grade columns)
+- Top 25 list: Hits (show Adj P(Hit), Raw P(Hit), Conf score, and Confidence Grade columns)
+- Top 25 list: XBH (show Adj P(XBH), Raw P(XBH), Conf score columns)
+  - Top 10 with descriptions: Home Runs (use HR Description Template below, include confidence breakdown)
+  - Top 10 with descriptions: Hits (use Hit Description Template below, include confidence breakdown)
+  - Top 10 with descriptions: XBH (use XBH Description Template below, include confidence breakdown)
+  - Separate BvP-favorable lists: Home Runs, Hits, XBH (same sort/tiebreak rules as Sections 4–6 in `daily-output-sections.mdc`)
+
+## HR Description Template (Top 10)
+
+**USE THE GOLD STANDARD FORMAT FROM `homerun-analysis.mdc`.** Every HR description must match that canonical example exactly in structure, depth, and tone. The required sections are:
+
+1. **Header Block** — Title, Model line (Raw/Adj/Conf/Grade), 3-PA probability line with formula, Confidence factors line (all 6)
+2. **Career Power Profile** — HRs, PAs, HR rate vs 3.1% with multiplier, editorial on rate, peak season, EV mean/max vs ~104 league, LA mean with shape comment, HR by pitch type (top 5-6 with count AND BA), multi-sentence narrative connecting pitch types to this pitcher's arsenal using "That's the math:", one-sentence summary
+3. **The [Pitcher]-Specific HR Case** — BvP line with editorial framing, HR table (Date/Pitch/Velo/EV/LA) if exists, narrative on contact quality + arsenal connection, BvP K rate with editorial, what-happens-when-he-connects narrative. If no BvP HR: state clearly, pivot to pitch-type matchup
+4. **[Pitcher]'s HR Vulnerability** — Career HR allowed/PA/rate vs league with editorial, HR by pitch type, fastball velo/usage with editorial, 2026 stats (ERA/WHIP/BB9/IP/HR) with strong editorial on current form, handedness splits with rate, K%/BB% with HR-variance context
+5. **Where [Batter] Ranks Tonight** — Rank of total by adj P(HR) with percentile, rank within team
+6. **The Verdict** — Three bold-labeled paragraphs: **For** (specific, multi-sentence), **Against** (specific, honest), **Net** (adj P per PA → 3-PA formula → 1-in-X odds → rank → positioning statement with conditional framing)
+
+Tone: analytical-conversational betting analyst. Bold key numbers. "That's the math:" bridges. Editorial voice. No hedging. Every stat gets "vs league" context.
+
+## Hit Description Template (Top 10)
+
+**USE THE GOLD STANDARD FORMAT FROM `hit-analysis.mdc`.** Every Hit description must match the canonical example in that file exactly in structure, depth, and tone. The required sections mirror the HR template's depth:
+
+1. **Header Block** — Title, Model line (Raw/Adj/Conf/Grade), 3-PA probability line with formula, Confidence factors line (all 6)
+2. **Career Contact Profile** — Hits, PAs, BA, career K rate vs ~22% league with editorial, doubles/HR for XBH context, EV on all hits mean vs league, hits by pitch type (top 5-6 with count AND BA), batter-by-pitch-group splits (BA/EV/whiff vs fastball/breaking/offspeed), multi-sentence narrative connecting pitch types to this pitcher's arsenal, one-sentence contact summary
+3. **The [Pitcher]-Specific Hit Case** — BvP line with editorial framing ("Strong BvP history" / "Struggled historically" / "No BvP history" based on thresholds), BvP K rate with editorial, narrative on when contact happens and what kind, pitch-type matchup logic connecting BvP to arsenal
+4. **[Pitcher]'s Hit Vulnerability** — BA allowed with hit count/AB, K rate and BB rate with context, arsenal breakdown (fastball %/velo, breaking %, offspeed %), BA by batter handedness with editorial, 2026 stats (ERA/WHIP/BB9) with strong editorial on current form
+5. **Where [Batter] Ranks Tonight** — Rank of total by adj P(Hit) with percentile, rank within team
+6. **The Verdict** — Three bold-labeled paragraphs: **For** (specific, multi-sentence), **Against** (specific, honest), **Net** (adj P per PA → 3-PA formula → 1-in-X odds → rank → positioning statement with conditional framing)
+
+Tone: same as HR — analytical-conversational betting analyst. Bold key numbers. Editorial voice. No hedging. Every stat gets "vs league" context.
+
+## XBH Description Template (Top 10)
+
+For each of the top 10 XBH matchups, produce ALL of these sections. Same data sources. Same tone.
+
+### Section 1: Title
+`## [Batter Name] XBH Analysis vs [Pitcher Name]`
+
+### Section 2: Career Extra-Base Power Profile
+- Total career XBH (doubles + triples + HR) and PAs with XBH rate vs league avg (7.9%)
+- Breakdown: X doubles, X triples, X HR
+- Peak XBH season callout (highest total in a single year)
+- Exit velocity on XBH: mean, max
+- Launch angle on XBH: mean
+- XBH by pitch type (top 4-5 pitch types with count and BA)
+- One-sentence pitch-type summary for XBH damage
+
+### Section 3: The [Pitcher]-Specific XBH Case
+- BvP line: X-for-Y (.BA), HR count, XBH count, K count, PA count
+- If BvP XBH exist: highlight the XBH types (doubles, triples, HR) and connect to pitcher arsenal
+- If no XBH history: state clearly, then pivot to pitch-type matchup logic
+- Narrative connecting BvP XBH to pitcher's arsenal and pitch-type matchup logic
+
+### Section 4: [Pitcher]'s XBH Vulnerability
+- Career XBH allowed count, PAs faced, XBH rate vs league avg (7.9%)
+- Breakdown: doubles, triples, HR allowed
+- XBH allowed by pitch type (top 3-4)
+- K rate and BB rate
+- XBH allowed by batter handedness (LHB rate vs RHB rate)
+- 2026 stats if available from qualifying_pitchers_2026.csv (ERA, WHIP, BB/9)
+
+### Section 5: Where [Batter] Ranks Tonight
+- Rank out of total matchups in P(XBH) with percentile
+- Rank within own team
+
+### Section 6: The Verdict on the XBH Bet
+Three labeled paragraphs:
+- **For:** career XBH rate, model P(XBH) vs baseline, BvP XBH history, pitcher XBH rate allowed, pitch-type overlap, EV data
+- **Against:** BvP K rate, lack of BvP XBH history, pitcher K rate, handedness splits, career K rate
+- **Net:** model P(XBH) per PA, probability across 3 PAs vs starter using 1-(1-p)^3, final positioning statement
+
+## Failure Handling
+
+If a command fails:
+- Report the failing command and error briefly.
+- Stop and ask the user whether to retry or adjust scope.

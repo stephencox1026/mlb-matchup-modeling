@@ -1,0 +1,31 @@
+home_team,enclosure,venue_id,venue_name,notes,park_hook_reserved,p_open_01,p_open_02,p_open_03,p_open_04,p_open_05,p_open_06,p_open_07,p_open_08,p_open_09,p_open_10,p_open_11,p_open_12,lat,lon,wind_orientation_cf_deg
+ARI,retractable,15,Chase Field,Phoenix: seasonal P(roof open) priors; seasonal roof priors only,0,0.75,0.8,0.88,0.9,0.95,0.95,0.95,0.9,0.9,0.88,0.8,0.75,33.4453,-112.0667,0
+ATL,outdoor,4705,Truist Park,Always outside (open air),0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,33.8908,-84.4678,60
+BAL,outdoor,2,Oriole Park at Camden Yards,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,39.2839,-76.6217,65
+BOS,outdoor,3,Fenway Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,42.3467,-71.0972,70
+CHC,outdoor,17,Wrigley Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,41.9484,-87.6553,35
+CIN,outdoor,2602,Great American Ball Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,39.0975,-84.5061,130
+CLE,outdoor,5,Progressive Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,41.4962,-81.6852,40
+CWS,outdoor,4,Rate Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,41.8300,-87.6338,0
+COL,outdoor,19,Coors Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,39.7559,-104.9942,0
+DET,outdoor,6,Comerica Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,42.3390,-83.0485,60
+HOU,retractable,2392,Minute Maid Park,Retractable; hot-climate prior leans open midyear,0,0.5,0.55,0.6,0.7,0.8,0.9,0.95,0.95,0.9,0.8,0.65,0.55,29.7570,-95.3551,320
+KC,outdoor,7,Kauffman Stadium,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,39.0517,-94.4803,35
+LAA,outdoor,1,Angel Stadium,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,33.8003,-117.8827,60
+LAD,outdoor,22,Dodger Stadium,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,34.0739,-118.2400,25
+MIA,retractable,4169,loanDepot park,Retractable; Miami climate prior,0,0.75,0.8,0.9,0.9,0.95,0.95,0.95,0.9,0.9,0.88,0.8,0.75,25.7781,-80.2197,75
+MIL,retractable,32,American Family Field,Retractable; colder-month early season prior leans closed,0,0.12,0.15,0.25,0.4,0.55,0.7,0.8,0.78,0.7,0.5,0.3,0.15,43.0280,-87.9712,60
+MIN,outdoor,3312,Target Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,44.9817,-93.2776,95
+NYM,outdoor,3289,Citi Field,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,40.7571,-73.8458,30
+NYY,outdoor,3315,Yankee Stadium,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,40.8296,-73.9262,0
+OAK,outdoor,2529,Sutter Health Park,Always outside (A's current home; update if venue key changes),0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,38.5800,-121.5128,35
+PHI,outdoor,2681,Citizens Bank Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,39.9061,-75.1665,35
+PIT,outdoor,31,PNC Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,40.4469,-80.0057,110
+SD,outdoor,2680,Petco Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,32.7073,-117.1566,75
+SEA,retractable,680,T-Mobile Park,Retractable; cool spring prior leans closed,0,0.15,0.2,0.3,0.45,0.55,0.7,0.8,0.78,0.7,0.4,0.2,0.12,47.5914,-122.3325,110
+SF,outdoor,2395,Oracle Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,37.7786,-122.3893,100
+STL,outdoor,2889,Busch Stadium,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,38.6226,-90.1928,60
+TB,fixed_dome,12,Tropicana Field,Always under fixed non-retractable roof; play is inside,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,27.7682,-82.6534,0
+TEX,retractable,5325,Globe Life Field,Retractable; DFW — warm-month lean open summer,0,0.45,0.5,0.6,0.7,0.8,0.9,0.95,0.95,0.9,0.75,0.6,0.5,32.7475,-97.0823,25
+TOR,retractable,14,Rogers Centre,Retractable; cool climate prior leans closed Apr/May,0,0.1,0.12,0.2,0.3,0.45,0.6,0.7,0.75,0.7,0.4,0.2,0.1,43.6414,-79.3894,0
+WSH,outdoor,3309,Nationals Park,Always outside,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,38.8730,-77.0074,35

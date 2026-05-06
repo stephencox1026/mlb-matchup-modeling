@@ -1,0 +1,88 @@
+---
+description: Template for hit analysis when user asks for Hit breakdown of a batter vs pitcher matchup
+alwaysApply: true
+---
+
+# Hit Analysis Format — Gold Standard
+
+When the user asks for a "hit analysis" or "hits analysis" or "hits breakdown" for a specific batter, OR when generating Top 10 Hit descriptions for the daily output, always produce the output in this **exact** structure, tone, and level of detail. This is the locked format. Do not abbreviate, summarize, or skip sections.
+
+Pull all data from the project's cached Statcast, pitcher profiles, batter pitch profiles, BvP history, and model predictions.
+
+## Canonical Example (match this exactly)
+
+The following is the gold-standard output. Every Hit description must match this depth, structure, and analytical voice. The structure mirrors the HR gold standard in `homerun-analysis.mdc` — same depth, same editorial voice, same "show your work" approach, just adapted for hits/contact instead of power.
+
+---
+
+**[Batter Name] Hit Analysis vs [Pitcher Name]**
+
+Model (tonight): Raw P(Hit) XX.X% | Adj P(Hit) XX.X% | Conf X.XXX (Grade)
+3 PA vs starter: (1-(1-raw)^3 ≈) XX.X% raw | ~XX.X% adjusted — about X-in-X at least one hit.
+
+Confidence factors: pitcher data X.XX | BvP HR X.XX | BvP hit X.XX | staleness X.XX | convergence HR X.XX | convergence hit X.XX
+
+**Career Contact Profile**
+X,XXX career hits in X,XXX PA (.XXX BA). League BA in this dataset is ~.243 — [Batter] is [above/below] that ([multiplier or context]). [Editorial on what this BA means in practical terms.]
+
+Career K rate: XX.X% [vs ~22% league avg — editorial: "well below" / "right at" / "elevated"].
+
+Extra-base context: XXX doubles, X triples, XXX HR — [editorial framing on gap power / pull power / all-fields etc.].
+
+Exit velocity on all career hits: mean XX.X mph [vs league hit EV context].
+
+Hits by pitch type (top): FF XXX (.XXX BA), SI XXX (.XXX), SL XXX (.XXX), CH XXX (.XXX), CU XXX (.XXX), FC XXX (.XXX). [Multi-sentence narrative connecting these pitch-type hit numbers to the specific pitcher's arsenal. Which of the pitcher's top pitches does this batter hit best? Where's the mismatch? Use "That's the math:" to bridge.]
+
+Pitch-group splits (batter_pitch_profiles): vs Fastball .XXX BA / XX.X mph EV / XX.X% whiff | vs Breaking .XXX / XX.X / XX.X% | vs Offspeed .XXX / XX.X / XX.X%. [One-sentence editorial on where this batter does best and how it maps to the pitcher.]
+
+One-sentence summary: [Batter] is a [type of hitter] who [key contact trait], and [Pitcher]'s arsenal feeds right into / doesn't match [that strength/weakness].
+
+**The [Pitcher]-Specific Hit Case**
+BvP: X-for-X (.XXX), X HR, X XBH, X K in X PA. [Editorial framing based on thresholds: "Strong BvP history" if BA ≥ .300 and PA ≥ 5 / "Struggled historically" if BA < .200 and PA ≥ 5 / "No BvP history" if PA = 0 / "Tiny sample" with editorial if PA 1-4.]
+
+BvP K rate: XX.X% — [editorial: "clean" / "ugly" / "workable" etc.].
+
+[Narrative paragraph: When this batter faces this pitcher, what happens? Connect the BvP results to the pitcher's arsenal. If BvP has hits, what pitch types were they on? If BvP is empty, pivot to pitch-type matchup logic: pitcher's top pitch vs batter's BA/EV against that pitch type.]
+
+**[Pitcher]'s Hit Vulnerability**
+Career: XXX hits allowed in X,XXX AB (.XXX BA allowed). [Context vs league BA ~.243 — editorial.]
+
+K rate: XX.X% | BB rate: XX.X% — [editorial on what this means for contact opportunity. Low K = more balls in play = more hit variance.]
+
+Arsenal breakdown: Fastball XX% (~XX mph), Breaking XX%, Offspeed XX%. [Editorial on hittable velocity / deception / command.]
+
+BA allowed by handedness: vs LHB .XXX (XXX hits in X,XXX AB) | vs RHB .XXX (XXX in X,XXX). [Batter] bats [hand] — [editorial on platoon advantage/disadvantage].
+
+2026 (qualifying file): ERA X.XX, WHIP X.XX, BB/9 X.XX, XX.X IP. [Strong editorial on current form — is this the same pitcher as career? Better? Worse? What does it mean for tonight?]
+
+**Where [Batter] Ranks Tonight**
+#X of XXX matchups by adj P(Hit) — top ~X% of the slate.
+#X on [TEAM] by adj P(Hit) — [best/Xth best] hit projection on [team] in this file.
+
+**The Verdict on the Hit Bet**
+**For:** [Multi-sentence. Career BA vs league, model P(Hit) vs baseline, BvP BA if favorable, K rate advantage, pitcher BA allowed and current 2026 form, pitch-type matchup alignment, EV data. Conversational analytical tone.]
+
+**Against:** [Multi-sentence. BvP struggles if any, career K rate concerns if elevated, pitcher K rate if high, handedness splits if unfavorable, any specific pitch-type weakness. Be specific and honest.]
+
+**Net:** ~XX.X% per PA adjusted → ~XX.X% over 3 PA — about X-in-X. [Rank callout: "That's the slate's [inner circle / top quarter / etc.]"]. [Final positioning statement that frames whether this is a "contact profile play," "BvP history play," "pitcher-in-crisis play," etc. Include conditional: "if you don't buy X, cut enthusiasm; if you do, [batter] is exactly the type of [description] you'd target."]
+
+---
+
+## Formatting Rules
+
+- Every stat gets "vs league" context or an editorial comment
+- Bold key numbers with `**`
+- Use "That's the math:" to bridge pitcher arsenal to batter hit history
+- Editorial voice throughout: "ugly," "clean," "crushes," "the flashing light," "on-brand"
+- No hedging: never "it seems," "it could be," "possibly"
+- Show your work: include 1-(1-p)^3 formula, show raw and adjusted
+- Always connect pitcher's 2026 form to the bet thesis when data exists
+- Confidence factors line must show all 6 factors
+
+## Data Sources
+- `data/reports/todays_matchup_predictions.json` for model predictions
+- `data/raw/statcast_pa_level_league.parquet` for career PA-level stats and BvP history
+- `data/raw/batter_pitch_profiles.parquet` for pitch-type EV/BA/whiff
+- `data/raw/pitcher_profiles_by_season.parquet` for pitcher arsenal/velo/spin
+- `data/raw/qualifying_pitchers_2026.csv` for 2026 pitcher stats
+- `data/raw/qualifying_batters_2026.csv` for batter MLBAM IDs

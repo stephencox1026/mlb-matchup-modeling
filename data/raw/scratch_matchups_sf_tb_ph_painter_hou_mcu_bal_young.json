@@ -1,0 +1,310 @@
+[
+  {
+    "game_pk": 824850,
+    "game_date": "2026-04-30",
+    "game_datetime_utc": "2026-04-30T16:40:00Z",
+    "status": "Preview",
+    "away_team": "HOU",
+    "away_team_name": "Houston Astros",
+    "away_team_id": 117,
+    "home_team": "BAL",
+    "home_team_name": "Baltimore Orioles",
+    "home_team_id": 110,
+    "away_pitcher_id": 621121,
+    "away_pitcher_name": "Lance McCullers Jr.",
+    "home_pitcher_id": 687064,
+    "home_pitcher_name": "Brandon Young",
+    "roof_state_today": null,
+    "weather_condition_mlb": null,
+    "weather_temp_mlb": null,
+    "weather_wind_mlb": null,
+    "away_batters": [
+      {
+        "mlbam_id": 669699,
+        "name": "Braden Shewmake",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 694728,
+        "name": "Brice Matthews",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 701358,
+        "name": "Cam Smith",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 621043,
+        "name": "Carlos Correa",
+        "pos": "SS"
+      },
+      {
+        "mlbam_id": 543877,
+        "name": "Christian V\u00e1zquez",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 572233,
+        "name": "Christian Walker",
+        "pos": "1B"
+      },
+      {
+        "mlbam_id": 669288,
+        "name": "Daniel Johnson",
+        "pos": "CF"
+      },
+      {
+        "mlbam_id": 687957,
+        "name": "Dustin Harris",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 670623,
+        "name": "Isaac Paredes",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 514888,
+        "name": "Jose Altuve",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 694376,
+        "name": "Shay Whitcomb",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 673237,
+        "name": "Yainer Diaz",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 670541,
+        "name": "Yordan Alvarez",
+        "pos": "LF"
+      }
+    ],
+    "home_batters": [
+      {
+        "mlbam_id": 668939,
+        "name": "Adley Rutschman",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 677942,
+        "name": "Blaze Alexander",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 691723,
+        "name": "Coby Mayo",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 681297,
+        "name": "Colton Cowser",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 687637,
+        "name": "Dylan Beavers",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 683002,
+        "name": "Gunnar Henderson",
+        "pos": "SS"
+      },
+      {
+        "mlbam_id": 669236,
+        "name": "Jeremiah Jackson",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 665750,
+        "name": "Leody Taveras",
+        "pos": "CF"
+      },
+      {
+        "mlbam_id": 624413,
+        "name": "Pete Alonso",
+        "pos": "1B"
+      },
+      {
+        "mlbam_id": 694212,
+        "name": "Samuel Basallo",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 621493,
+        "name": "Taylor Ward",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 641933,
+        "name": "Tyler O'Neill",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 642215,
+        "name": "Weston Wilson",
+        "pos": "3B"
+      }
+    ]
+  },
+  {
+    "game_pk": 823472,
+    "game_date": "2026-04-30",
+    "game_datetime_utc": "2026-04-30T16:35:00Z",
+    "status": "Preview",
+    "away_team": "SF",
+    "away_team_name": "San Francisco Giants",
+    "away_team_id": 137,
+    "home_team": "PHI",
+    "home_team_name": "Philadelphia Phillies",
+    "home_team_id": 143,
+    "away_pitcher_id": 0,
+    "away_pitcher_name": "TBD",
+    "home_pitcher_id": 691725,
+    "home_pitcher_name": "Andrew Painter",
+    "roof_state_today": "outdoor",
+    "weather_condition_mlb": "Partly Cloudy",
+    "weather_temp_mlb": "61",
+    "weather_wind_mlb": "8 mph, L To R",
+    "away_batters": [
+      {
+        "mlbam_id": 669477,
+        "name": "Casey Schmitt",
+        "pos": "1B"
+      },
+      {
+        "mlbam_id": 683766,
+        "name": "Christian Koss",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 687551,
+        "name": "Drew Gilbert",
+        "pos": "CF"
+      },
+      {
+        "mlbam_id": 606992,
+        "name": "Eric Haase",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 671218,
+        "name": "Heliot Ramos",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 666464,
+        "name": "Jerar Encarnacion",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 808982,
+        "name": "Jung Hoo Lee",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 650333,
+        "name": "Luis Arraez",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 656305,
+        "name": "Matt Chapman",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 672275,
+        "name": "Patrick Bailey",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 646240,
+        "name": "Rafael Devers",
+        "pos": "1B"
+      },
+      {
+        "mlbam_id": 686823,
+        "name": "Will Brennan",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 642715,
+        "name": "Willy Adames",
+        "pos": "SS"
+      }
+    ],
+    "home_batters": [
+      {
+        "mlbam_id": 666969,
+        "name": "Adolis Garc\u00eda",
+        "pos": "RF"
+      },
+      {
+        "mlbam_id": 664761,
+        "name": "Alec Bohm",
+        "pos": "3B"
+      },
+      {
+        "mlbam_id": 669016,
+        "name": "Brandon Marsh",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 547180,
+        "name": "Bryce Harper",
+        "pos": "1B"
+      },
+      {
+        "mlbam_id": 681082,
+        "name": "Bryson Stott",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 664238,
+        "name": "Dylan Moore",
+        "pos": "CF"
+      },
+      {
+        "mlbam_id": 624641,
+        "name": "Edmundo Sosa",
+        "pos": "2B"
+      },
+      {
+        "mlbam_id": 694025,
+        "name": "Felix Reyes",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 596117,
+        "name": "Garrett Stubbs",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 702222,
+        "name": "Justin Crawford",
+        "pos": "CF"
+      },
+      {
+        "mlbam_id": 656941,
+        "name": "Kyle Schwarber",
+        "pos": "LF"
+      },
+      {
+        "mlbam_id": 665561,
+        "name": "Rafael March\u00e1n",
+        "pos": "C"
+      },
+      {
+        "mlbam_id": 607208,
+        "name": "Trea Turner",
+        "pos": "SS"
+      }
+    ]
+  }
+]

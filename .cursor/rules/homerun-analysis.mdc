@@ -1,0 +1,135 @@
+---
+description: Template for home run analysis when user asks for HR breakdown of a batter vs pitcher matchup
+alwaysApply: true
+---
+
+# Home Run Analysis Format — Gold Standard
+
+When the user asks for a "home run analysis" or "HR analysis" for a specific batter, OR when generating Top 10 HR descriptions for the daily output, always produce the output in this **exact** structure, tone, and level of detail. This is the locked format. Do not abbreviate, summarize, or skip sections.
+
+Pull all data from the project's cached Statcast, pitcher profiles, batter pitch profiles, BvP history, and model predictions.
+
+## Canonical Example (match this exactly)
+
+The following is the gold-standard output. Every HR description must match this depth, structure, and analytical voice.
+
+---
+
+**Brandon Lowe HR Analysis vs Miles Mikolas**
+
+Model (tonight): Raw P(HR) 7.22% | Adj P(HR) 7.09% | Conf 0.982 (Medium)
+3 PA vs starter: (1-(1-0.0722)^3 ≈) 20.1% raw | ~19.7% adjusted — about 1-in-5 either way.
+
+Confidence factors: pitcher data 1.00 | BvP HR 1.05 | BvP hit 1.00 | staleness 0.85 | convergence HR 1.10 | convergence hit 1.00
+
+**Career Power Profile**
+157 career HR in 3,002 PA (5.23% HR/PA). League HR rate in this dataset is ~3.1% — Lowe is well above that (~1.7×). That's real power, not noise from a tiny sample.
+
+Peak season: 2021 (39 HR).
+
+Exit velocity on career HRs: mean 104.7 mph | max 114.3 mph — solidly hard HR contact vs league HR EV (~104 mph in this ballpark).
+
+Launch angle on career HRs: mean 29.2 deg — normal fly-ball HR shape.
+
+HR by pitch type (top): FF 60 (.226 BA in sample), CH 24 (.218), SL 19 (.155), FC 16 (.267), SI 14 (.249), CU 11 (.247). Four-seam is the engine — 4 of every 10 career HRs are off heaters. He still does damage on changeups and sinkers; slider is the weakest BA bucket but he still has 19 HR off SL. That's the math: Mikolas runs FF / SL / CU as his top three usage pitches — Lowe's 60 HR off FF and 11 off CU line up with what Mikolas actually throws.
+
+One-sentence summary: Fastballs are the bread and butter — 60 of 157 career HRs came off FF, and he's shown he can elevate off Mikolas-type sinker stuff too.
+
+**The Mikolas-Specific HR Case**
+BvP: 1-for-5 (.200), 1 HR, 3 K in 5 PA. Sample is tiny, but it's not empty: one HR already on the board.
+
+| Date (Statcast) | Pitch type | Velo | EV | LA |
+|---|---|---|---|---|
+| 2025-08-22 | SI | 93 mph | 110 mph | 31° |
+
+That HR came on a sinker at 110 mph — violent contact. Mikolas leans sinker/four-seam/slider/curve; Lowe's BvP HR is on-brand with his SI/FF HR history.
+
+Narrative: BvP K rate 60% (3 K in 5) is ugly — when he's not putting the ball in play, he's whiffing. When he does connect in this matchup, the ball has left before.
+
+**Mikolas's HR Vulnerability**
+Career: 155 HR allowed in 4,817 PA (3.22% HR/PA). That's right on the ~3.1% league average — career-wise he's not an extreme HR fountain.
+
+HR allowed by pitch (top): FF 42, SI 37, SL 37, CU 22, CH 14.
+
+Fastball: ~92.7 mph (profile), ~45% fastball-class usage — hittable velocity if location slips.
+
+2026 (qualifying file): ERA 12.41, WHIP 2.35, BB/9 5.11, 12.3 IP, 5 HR allowed. That's catastrophic early form — you're not betting career Mikolas tonight; you're betting whatever this version is. The 5 HR in 12.3 IP is the flashing light for HR props.
+
+vs LHB (Lowe bats left): 78 HR in 2,425 PA (3.22%) — same as vs RHB in this dataset; no platoon hide for Mikolas on HR rate.
+
+K / BB: Career K% ~17.3%, BB% ~5.3% — he does not miss many bats relative to league; more balls in play means more HR variance when he's getting barreled (as 2026 suggests).
+
+**Where Lowe Ranks Tonight**
+#4 of 388 matchups by adj P(HR) — top ~1% of the slate.
+#1 on PIT by adj P(HR) — best HR projection on the Pirates in this file.
+
+**The Verdict on the HR Bet**
+**For:** 5.23% career HR/PA crushes 3.1% league average — elite-tier HR frequency in the population. Raw and adj model are both ~7.2% / 7.1% per PA — more than double baseline. BvP already has 1 HR in 5 PA off this arm, and it was a 110 mph sinker bomb — lines up with Mikolas's SI/FF diet. 2026 Mikolas is leaking HR and ERA; low K% means Lowe gets looks. Confidence on HR is Medium with convergence_hr 1.10 (signals agreeing).
+
+**Against:** 3 K in 5 BvP PA — when this matchup goes wrong, it goes strikeout wrong. Lowe's 27.2% career K rate is elevated; model P(K) ~32% tonight flags whiff risk. Mikolas's career HR rate is average — if you think 2026 is noise, you're fading the meltdown thesis. Staleness 0.85 still trims confidence (rolling data not "fresh April" in the same way as live 2026 box lines).
+
+**Net:** ~7.1% per PA adjusted → ~19.7% over 3 PA — about 1-in-5. That's the slate's inner circle (#4 overall, #1 on PIT). This is both a power profile play (career HR rate + Mikolas arsenal overlap) and a current-form play on Mikolas 2026 — if you don't buy the 12 ERA stick, cut enthusiasm; if you do, Lowe is exactly the type of lefty power bat you'd short-list for HR.
+
+---
+
+## Required Sections and Rules (derived from canonical example)
+
+Every HR description MUST contain ALL of the following, in this order:
+
+### 1. Header Block (3 lines)
+- `## [Batter Name] HR Analysis vs [Pitcher Name]`
+- `Model (tonight): Raw P(HR) X.XX% | Adj P(HR) X.XX% | Conf X.XXX (Grade)`
+- `3 PA vs starter: (1-(1-raw)^3 ≈) XX.X% raw | ~XX.X% adjusted — about 1-in-X either way.`
+- `Confidence factors:` list all 6 factors with values
+
+### 2. Career Power Profile
+- Career HRs and PAs with HR rate, compared to 3.1% league avg with multiplier (e.g. "~1.7×")
+- Editorial comment on what the rate means ("real power, not noise")
+- Peak season (year and HR count)
+- EV on career HRs: mean and max, compared to ~104 mph league HR EV
+- LA on career HRs: mean, with shape comment ("normal fly-ball HR shape")
+- HR by pitch type: show top 5-6 types with count AND BA in sample. Then a **multi-sentence narrative** connecting those pitch types to the specific pitcher's arsenal. Use "That's the math:" to bridge.
+- One-sentence summary connecting to the pitcher
+
+### 3. The [Pitcher]-Specific HR Case
+- BvP line with editorial framing ("Sample is tiny, but it's not empty")
+- If BvP HR exists: table with Date | Pitch type | Velo | EV | LA for each HR, then narrative on the contact quality and how it connects to pitcher arsenal
+- If BvP HR = 0: state clearly, pivot to pitch-type matchup logic with specific numbers
+- BvP K rate with editorial ("ugly" / "clean" etc.)
+- Narrative sentence on what happens when he does/doesn't connect
+
+### 4. [Pitcher]'s HR Vulnerability
+- Career HR allowed count, PA, rate vs 3.1% league avg with editorial
+- HR allowed by pitch type (top 4-5)
+- Fastball velocity and usage % with editorial ("hittable velocity if location slips")
+- 2026 stats from qualifying file (ERA, WHIP, BB/9, IP, HR allowed) with strong editorial on current form
+- HR allowed by batter handedness with rate and editorial
+- K% and BB% with context on what it means for HR variance
+
+### 5. Where [Batter] Ranks Tonight
+- Rank of total matchups by adj P(HR) with percentile ("top ~X%")
+- Rank within own team with label
+
+### 6. The Verdict on the HR Bet
+Three paragraphs, each with a bold label:
+- **For:** career HR rate vs league, model P(HR) vs baseline, BvP HR history with specific detail, pitcher arsenal overlap, 2026 form, confidence factors. Conversational analytical tone.
+- **Against:** BvP K rate, career K rate, model P(K), pitcher career HR rate, staleness concern. Be specific and honest.
+- **Net:** adjusted P(HR) per PA → 3-PA probability with formula shown → plain-English odds → rank callout → final positioning statement that frames whether this is a "profile play," "history play," "current-form play," etc. with a conditional ("if you don't buy X, cut enthusiasm; if you do, this is exactly...").
+
+## Tone Rules
+- Analytical but conversational, like a sharp betting analyst on a podcast
+- Bold key numbers with `**`
+- Use "That's the math:" to bridge pitcher arsenal to batter HR history
+- Use editorial voice: "ugly," "violent contact," "crushes," "the flashing light," "on-brand"
+- No hedging: never say "it seems," "it could be," "possibly." Be direct.
+- Frame everything in context: every stat gets a "vs league avg" or "what this means" comment
+- Show your work: include formulas like `1-(1-p)^3`, show both raw and adjusted
+- Always connect pitcher's current 2026 form to the bet thesis when data exists
+
+## Data Sources
+- `data/reports/todays_matchup_predictions.json` for model predictions
+- `data/raw/statcast_pa_level_league.parquet` for career PA-level stats and BvP history
+- `data/raw/batter_pitch_profiles.parquet` for pitch-type EV/BA/whiff
+- `data/raw/pitcher_profiles_by_season.parquet` for pitcher arsenal/velo/spin
+- `data/raw/qualifying_pitchers_2026.csv` for 2026 pitcher stats
+- `data/raw/qualifying_batters_2026.csv` for batter MLBAM IDs

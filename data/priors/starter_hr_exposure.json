@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "description": "Prior exposure for starter HR expectancy post-processor. Slot weights are mean PAs vs starting pitcher by batting-order slot (1=leadoff). Heuristic top-heavy spread scaled to mean_bf; replace with Statcast-derived values when bulk historical path is wired.",
+  "mean_bf": 24.4,
+  "median_bf": 24,
+  "mean_pa_vs_starter_by_slot": [
+    2.9197,
+    2.8675,
+    2.8154,
+    2.7632,
+    2.7111,
+    2.659,
+    2.6068,
+    2.5547,
+    2.5026
+  ],
+  "notes": [
+    "mean_pa_vs_starter_by_slot has length 9; index 0 = lineup slot 1.",
+    "Values sum to mean_bf (total expected PAs vs starter across the nine slots).",
+    "When official lineups are supplied (see gen_pitcher_expected_hr.py), slot s uses weight[s-1] with batter at that slot."
+  ]
+}

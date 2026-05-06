@@ -1,0 +1,14 @@
+---
+description: HR calendar HTML — combo tables and client-side sort
+globs: scripts/gen_hr_calendar_5_players.py,data/reports/hr_calendar_*.html
+alwaysApply: false
+---
+
+# HR calendar generated tables
+
+When editing [`scripts/gen_hr_calendar_5_players.py`](scripts/gen_hr_calendar_5_players.py):
+
+- **Markup:** Use `class="combo-table"` on every data `<table>` (including `summary`). Keep a single `<thead><tr>` with `<th>` labels.
+- **Layout:** Prefer `width: 100%`, `max-width: 100%`, wrapped headers/cells (`white-space: normal`, `word-break: break-word`). Avoid fixed `min-width` on wide tables and avoid `overflow-x: auto` unless a table truly cannot wrap.
+- **Sort:** `sortable_tables_script()` runs site-wide: every `table.combo-table` gets clickable sortable headers (`thead th` → `sortable-col`). Sorting uses `localeCompare` with `{ numeric: true }`. Do not duplicate sort logic per table.
+- **Dynamic rows:** Client-rendered tables (custom trio) keep sort on `thead`; rebinding is not required.

@@ -1,0 +1,92 @@
+---
+description: Trigger full daily dual-model refresh from "update now"
+alwaysApply: true
+---
+
+# Update Now Macro
+
+When the user message is exactly `update now`, run this workflow without extra clarification.
+
+## Date + Data Scope
+
+- Treat slate date as today's date unless the user specifies another date.
+- Ensure Statcast PA data is updated through the prior calendar day before predictions.
+
+## Required Execution
+
+1. Run full dual refresh (this also runs `fetch_qualifying_batters.py` so **Residual longshots** YTD join stays current; skip with `--skip-fetch-qualifying-batters` only if offline):
+   - `python3 src/run_dual_model_daily.py --date <slate_date>`
+2. Regenerate barrel sections with 7-day recent window:
+   - `python3 src/gen_sections_11_13.py --recent-days 7`
+
+## Required Saved Outputs
+
+Verify these files are written for the slate:
+
+- Predictions:
+  - `data/reports/todays_matchup_predictions.json` (prod)
+  - `data/reports/todays_matchup_predictions_exp.json` (exp)
+- Trust + conviction + no-HR:
+  - `data/reports/section_0_drift.md` (per-bucket health + drift; auto-refits isotonic)
+  - `data/reports/section_14_conviction_picks.md` (M1 Lock picks across HR/Hit/XBH)
+  - `data/reports/section_15_zero_hr.md` (per-game P(0 HR), NB-calibrated, weather-adjusted)
+  - `data/reports/todays_zero_hr_predictions.json` (Section 15 sidecar with weather fields)
+  - `data/reports/conf_bucket_calibration.md` (full per-conf-bucket reliability)
+  - `data/reports/data_quality_report.md` (post-run coverage by data_quality tag, imputation counters, hard-fail rows)
+
+## Data-quality gate (auto)
+
+`run_dual_model_daily.py` invokes `src/data_quality_check.py` automatically:
+- Pre-run: hard-fails if Statcast PA, val features, pitcher profiles, batter pitch profiles, or qualifying CSVs are stale or missing current-year rows.
+- Post-run: writes `data/reports/data_quality_report.md`; warns when full-GBDT coverage drops below 85% and lists any hard-fail "pure-default" rows (no career, no YTD, no BvP).
+- Break-glass: `--skip-dq` on either macro disables both gates (offline only).
+
+Each prediction row in `todays_matchup_predictions.json` carries:
+- `data_quality` = `full_gbdt` / `x_is_none_league_avg` / `tbd_pitcher` / `missing_pitcher_profile`
+- `posterior_audit.engagement_gate` (True if career_pa>=150 OR ytd_pa>=50 OR bvp_pa>=20)
+- `posterior_audit.ytd_boost_applied` (0.0 when not engaged; 1.0–2.0 ramp when engaged)
+- `posterior_audit.total_career_pa`, `posterior_audit.bpt_imputed`, `posterior_audit.g_roll_imputed_count`
+
+## Optional: refresh weather + roof close to first pitch
+
+Section 15 weather is fetched at macro time. For the freshest forecast + late-posted MLB roof states, run `python3 src/refresh_game_conditions_today.py` ~90 minutes before the slate starts. It re-fetches weather + roof, regenerates Section 15 + the dashboard No HR Model tab only, and prints a diff. Suitable for cron at first-pitch-minus-90.
+- Core sections:
+  - `data/reports/sections_1_6.md`
+  - `data/reports/sections_1_6_prod.md`
+  - `data/reports/sections_1_6_exp.md`
+  - `data/reports/section_9.md`
+- Longform markdown only:
+  - `data/reports/section_7_prod.md`
+  - `data/reports/section_7_exp.md`
+  - `data/reports/section_8_prod.md`
+  - `data/reports/section_8_exp.md`
+  - `data/reports/section_10_prod.md`
+  - `data/reports/section_10_exp.md`
+- Barrel sections:
+  - `data/reports/section_11.md`
+  - `data/reports/section_12.md`
+  - `data/reports/section_13.md`
+  - `data/reports/sections_11_13.md`
+- Archive:
+  - `data/reports/archive/<slate_date>/...` copies of generated artifacts
+
+## Chat Deliverable Rules
+
+- **ALWAYS print Section 0 (drift + bucket health) at the very top of the daily output.** This is the trust meter — read it first.
+- **ALWAYS print Section 14 (Conviction Picks) at the bottom.** This is the betting deliverable, filtered to M1 Lock picks only.
+- Print sections in chat for all sections except 7, 8, and 10.
+- Keep sections 7, 8, and 10 in markdown files only (do not paste those writeups in chat unless explicitly asked).
+- Show production and experiment outputs side-by-side for the probability table sections (1-6), using the same column schema as project rules:
+  - Adj probability, raw probability, 3-PA probability, confidence score, confidence label, and BvP/career context columns as applicable.
+- Also include three dedicated side-by-side comparison tables in chat for:
+  - Home Runs (top 25 by raw `p_hr`)
+  - Hits (top 25 by raw `p_hit`)
+  - XBH (top 25 by raw `p_xbh`)
+- Dedicated comparison table format must be:
+  - `# | Model 1 batter | Conf | vs SP | Model 2 batter | Conf | vs SP`
+  - Where `Model 1` = production, `Model 2` = experiment.
+  - `vs SP` format: `H/AB, XB<n>, HR<n>`; use `—` if no BvP PA exists.
+- After each dedicated comparison table, include a short comparison block with:
+  - overlap count, model-only counts, average raw-probability gap on overlaps, and notable movers/new entries.
+- Include Section 9 and Sections 11-13 in chat.
+- Confirm where files were saved.

@@ -1,0 +1,10 @@
+pandas>=2.2,<3
+pyarrow>=15.0
+pybaseball>=2.2
+MLB-StatsAPI>=1.7
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.1
+matplotlib>=3.8
+seaborn>=0.13
+numpy>=1.26,<2

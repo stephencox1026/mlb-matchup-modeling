@@ -1,0 +1,42 @@
+# Environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.rsp_cache/
+.ruff_cache/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+
+# Large ML artifacts (rebuild locally — see README)
+*.parquet
+*.pkl
+
+# Prediction run logs (can grow large)
+data/tracking/*.parquet
+
+# Archived daily outputs (unbounded growth)
+data/reports/archive/
+
+# Regenerated HTML dashboards (optional — recreate via src/)
+data/reports/matchup_dashboard.html
+data/reports/matchup_betting_board.html
+docs/matchup_dashboard.html
+
+# Large / refreshed prediction exports (re-run daily pipeline)
+data/reports/todays_matchup_predictions*.json
+data/reports/todays_starter_run_expectancies.json
+data/reports/todays_zero_hr_predictions.json
+data/reports/matchup_predictions_*.json
+data/raw/todays_all_predictions.json
+data/raw/statcast_pa_level.csv
+data/reports/hr_calendar_5_sluggers_2026.html

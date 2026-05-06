@@ -1,0 +1,49 @@
+---
+description: Regenerating matchup_dashboard.html — Results tab must reflect actuals through the prior calendar day; Bucket Health, Conviction Picks, No HR Model tabs depend on freshly-generated source files
+globs: src/gen_matchup_dashboard_html.py,data/reports/matchup_dashboard.html
+alwaysApply: false
+---
+
+# Matchup dashboard HTML — tabs reference
+
+When regenerating `data/reports/matchup_dashboard.html` (via `python3 src/gen_matchup_dashboard_html.py`, optionally `--date` / `-o`), treat the **Results vs actuals**, **Bucket Health (S0)**, **Conviction Picks (S14)**, and **No HR Model (S15)** tabs as part of the deliverable.
+
+## New tabs (Section 0 / 14 / 15)
+
+The dashboard now has three tabs backed by the trust + conviction stack:
+
+| Tab | Source file | Generator |
+|---|---|---|
+| **Bucket Health (S0)** | `data/reports/section_0_drift.md` (table) + `data/tracking/calibration_drift_log.parquet` (sparklines) | `python3 src/monitor_calibration_drift.py` |
+| **Conviction Picks (S14)** | `data/reports/todays_matchup_predictions.json` (M1 `score_label_*` Lock filter) + `data/raw/statcast_pa_level_league.parquet` (14d streak bars) | `python3 src/gen_conviction_picks.py` (markdown sidecar); JSON predictions come from `python3 src/build_matchup_dashboard.py` |
+| **No HR Model (S15)** | `data/reports/todays_zero_hr_predictions.json` | `python3 src/gen_zero_hr_predictions.py` |
+
+All three are produced automatically by `src/run_dual_model_daily.py`. Each tab degrades gracefully (renders an inline "not yet generated; run …" stub) if its source file is missing.
+
+## Data through prior day
+
+## Data through prior day
+
+1. **League PA file** — `data/raw/statcast_pa_level_league.parquet` must include plate appearances **through the prior calendar day**. Run `python3 src/append_statcast_day_to_league_pa.py --date YYYY-MM-DD` after games: it pulls **Statcast** when Savant has data, and **automatically falls back to MLB Stats API** play-by-play when Savant returns no rows for that date (so Results still get H / XBH / HR / PA totals).
+2. **Dual-model tracking** — `data/tracking/matchup_dual_model_predictions.parquet` supplies predictions per slate; actuals for the tab resolve as **tracking fill first** (exact `game_pk` / batter / pitcher), then **same-day Statcast rollup per batter**. Do not assume embedded `outcome_*` columns alone are populated for new slates.
+
+## Results tab default date range
+
+When building with `--date` set to the **upcoming** slate (e.g. `2026-04-25`), the embedded Results filter defaults to the **previous calendar day** if that day has postgame rows—so “last night’s actuals” open automatically while the Matchups tab shows tonight’s slate. Users can still widen the date range in the toolbar.
+
+## After code or pipeline changes
+
+After updating Statcast data or prediction artifacts, re-run the generator and spot-check:
+
+- **Results vs actuals** for the **most recent completed slate** (e.g. yesterday): rows should show evaluable PAs where games were played, not blanket “No PA” for a day that exists in the parquet.
+- **Bucket Health (S0)** for any CRITICAL row at the top of the tab — that flags a structural issue that should be triaged.
+- **Conviction Picks (S14)** loads with non-empty Lock subsections when there are picks tonight.
+- **No HR Model (S15)** loads with games sorted by P(0 HR) descending and the lambda-decomposition stacked bars rendering.
+
+## Command
+
+```bash
+python3 src/gen_matchup_dashboard_html.py
+```
+
+Output: `data/reports/matchup_dashboard.html`.

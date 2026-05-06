@@ -1,0 +1,286 @@
+{
+  "_meta": {
+    "league_hr_pa": 0.03028,
+    "years": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "n_pa_total": 732735,
+    "shrinkage_pseudo_pa": 5000,
+    "method": "two-sided park factor with EB shrinkage to 1.0"
+  },
+  "parks": {
+    "ATH": {
+      "home_team": "ATH",
+      "n_pa": 24761,
+      "n_hr": 699,
+      "observed_hr_pa": 0.02823,
+      "expected_hr_pa": 0.03195,
+      "pf_two_sided_raw": 0.8837,
+      "pf_two_sided_shrunk": 0.9032
+    },
+    "ATL": {
+      "home_team": "ATL",
+      "n_pa": 24376,
+      "n_hr": 801,
+      "observed_hr_pa": 0.03286,
+      "expected_hr_pa": 0.03451,
+      "pf_two_sided_raw": 0.9522,
+      "pf_two_sided_shrunk": 0.9603
+    },
+    "AZ": {
+      "home_team": "AZ",
+      "n_pa": 24707,
+      "n_hr": 671,
+      "observed_hr_pa": 0.02716,
+      "expected_hr_pa": 0.03171,
+      "pf_two_sided_raw": 0.8565,
+      "pf_two_sided_shrunk": 0.8807
+    },
+    "BAL": {
+      "home_team": "BAL",
+      "n_pa": 24358,
+      "n_hr": 755,
+      "observed_hr_pa": 0.031,
+      "expected_hr_pa": 0.03109,
+      "pf_two_sided_raw": 0.9971,
+      "pf_two_sided_shrunk": 0.9976
+    },
+    "BOS": {
+      "home_team": "BOS",
+      "n_pa": 24910,
+      "n_hr": 705,
+      "observed_hr_pa": 0.0283,
+      "expected_hr_pa": 0.03016,
+      "pf_two_sided_raw": 0.9383,
+      "pf_two_sided_shrunk": 0.9487
+    },
+    "CHC": {
+      "home_team": "CHC",
+      "n_pa": 24204,
+      "n_hr": 720,
+      "observed_hr_pa": 0.02975,
+      "expected_hr_pa": 0.03019,
+      "pf_two_sided_raw": 0.9852,
+      "pf_two_sided_shrunk": 0.9878
+    },
+    "CIN": {
+      "home_team": "CIN",
+      "n_pa": 24597,
+      "n_hr": 866,
+      "observed_hr_pa": 0.03521,
+      "expected_hr_pa": 0.02746,
+      "pf_two_sided_raw": 1.2823,
+      "pf_two_sided_shrunk": 1.2346
+    },
+    "CLE": {
+      "home_team": "CLE",
+      "n_pa": 24041,
+      "n_hr": 626,
+      "observed_hr_pa": 0.02604,
+      "expected_hr_pa": 0.02812,
+      "pf_two_sided_raw": 0.926,
+      "pf_two_sided_shrunk": 0.9387
+    },
+    "COL": {
+      "home_team": "COL",
+      "n_pa": 25475,
+      "n_hr": 831,
+      "observed_hr_pa": 0.03262,
+      "expected_hr_pa": 0.02711,
+      "pf_two_sided_raw": 1.2033,
+      "pf_two_sided_shrunk": 1.17
+    },
+    "CWS": {
+      "home_team": "CWS",
+      "n_pa": 24586,
+      "n_hr": 710,
+      "observed_hr_pa": 0.02888,
+      "expected_hr_pa": 0.02781,
+      "pf_two_sided_raw": 1.0383,
+      "pf_two_sided_shrunk": 1.0318
+    },
+    "DET": {
+      "home_team": "DET",
+      "n_pa": 24272,
+      "n_hr": 664,
+      "observed_hr_pa": 0.02736,
+      "expected_hr_pa": 0.02813,
+      "pf_two_sided_raw": 0.9727,
+      "pf_two_sided_shrunk": 0.9773
+    },
+    "HOU": {
+      "home_team": "HOU",
+      "n_pa": 24126,
+      "n_hr": 783,
+      "observed_hr_pa": 0.03245,
+      "expected_hr_pa": 0.03164,
+      "pf_two_sided_raw": 1.0258,
+      "pf_two_sided_shrunk": 1.0214
+    },
+    "KC": {
+      "home_team": "KC",
+      "n_pa": 24406,
+      "n_hr": 624,
+      "observed_hr_pa": 0.02557,
+      "expected_hr_pa": 0.02872,
+      "pf_two_sided_raw": 0.8903,
+      "pf_two_sided_shrunk": 0.909
+    },
+    "LAA": {
+      "home_team": "LAA",
+      "n_pa": 24514,
+      "n_hr": 845,
+      "observed_hr_pa": 0.03447,
+      "expected_hr_pa": 0.03077,
+      "pf_two_sided_raw": 1.1203,
+      "pf_two_sided_shrunk": 1.0999
+    },
+    "LAD": {
+      "home_team": "LAD",
+      "n_pa": 24290,
+      "n_hr": 913,
+      "observed_hr_pa": 0.03759,
+      "expected_hr_pa": 0.03143,
+      "pf_two_sided_raw": 1.1959,
+      "pf_two_sided_shrunk": 1.1624
+    },
+    "MIA": {
+      "home_team": "MIA",
+      "n_pa": 24678,
+      "n_hr": 668,
+      "observed_hr_pa": 0.02707,
+      "expected_hr_pa": 0.02833,
+      "pf_two_sided_raw": 0.9556,
+      "pf_two_sided_shrunk": 0.9631
+    },
+    "MIL": {
+      "home_team": "MIL",
+      "n_pa": 24227,
+      "n_hr": 776,
+      "observed_hr_pa": 0.03203,
+      "expected_hr_pa": 0.02881,
+      "pf_two_sided_raw": 1.1117,
+      "pf_two_sided_shrunk": 1.0926
+    },
+    "MIN": {
+      "home_team": "MIN",
+      "n_pa": 24590,
+      "n_hr": 760,
+      "observed_hr_pa": 0.03091,
+      "expected_hr_pa": 0.03024,
+      "pf_two_sided_raw": 1.022,
+      "pf_two_sided_shrunk": 1.0183
+    },
+    "NYM": {
+      "home_team": "NYM",
+      "n_pa": 24373,
+      "n_hr": 743,
+      "observed_hr_pa": 0.03048,
+      "expected_hr_pa": 0.03107,
+      "pf_two_sided_raw": 0.981,
+      "pf_two_sided_shrunk": 0.9842
+    },
+    "NYY": {
+      "home_team": "NYY",
+      "n_pa": 24274,
+      "n_hr": 889,
+      "observed_hr_pa": 0.03662,
+      "expected_hr_pa": 0.03323,
+      "pf_two_sided_raw": 1.1022,
+      "pf_two_sided_shrunk": 1.0847
+    },
+    "PHI": {
+      "home_team": "PHI",
+      "n_pa": 24379,
+      "n_hr": 822,
+      "observed_hr_pa": 0.03372,
+      "expected_hr_pa": 0.03012,
+      "pf_two_sided_raw": 1.1194,
+      "pf_two_sided_shrunk": 1.0991
+    },
+    "PIT": {
+      "home_team": "PIT",
+      "n_pa": 24575,
+      "n_hr": 582,
+      "observed_hr_pa": 0.02368,
+      "expected_hr_pa": 0.02856,
+      "pf_two_sided_raw": 0.8291,
+      "pf_two_sided_shrunk": 0.858
+    },
+    "SD": {
+      "home_team": "SD",
+      "n_pa": 24096,
+      "n_hr": 718,
+      "observed_hr_pa": 0.0298,
+      "expected_hr_pa": 0.02849,
+      "pf_two_sided_raw": 1.0459,
+      "pf_two_sided_shrunk": 1.038
+    },
+    "SEA": {
+      "home_team": "SEA",
+      "n_pa": 23913,
+      "n_hr": 738,
+      "observed_hr_pa": 0.03086,
+      "expected_hr_pa": 0.03282,
+      "pf_two_sided_raw": 0.9404,
+      "pf_two_sided_shrunk": 0.9507
+    },
+    "SF": {
+      "home_team": "SF",
+      "n_pa": 24305,
+      "n_hr": 580,
+      "observed_hr_pa": 0.02386,
+      "expected_hr_pa": 0.03108,
+      "pf_two_sided_raw": 0.7679,
+      "pf_two_sided_shrunk": 0.8075
+    },
+    "STL": {
+      "home_team": "STL",
+      "n_pa": 24418,
+      "n_hr": 652,
+      "observed_hr_pa": 0.0267,
+      "expected_hr_pa": 0.02959,
+      "pf_two_sided_raw": 0.9024,
+      "pf_two_sided_shrunk": 0.919
+    },
+    "TB": {
+      "home_team": "TB",
+      "n_pa": 24009,
+      "n_hr": 737,
+      "observed_hr_pa": 0.0307,
+      "expected_hr_pa": 0.02959,
+      "pf_two_sided_raw": 1.0374,
+      "pf_two_sided_shrunk": 1.031
+    },
+    "TEX": {
+      "home_team": "TEX",
+      "n_pa": 24299,
+      "n_hr": 788,
+      "observed_hr_pa": 0.03243,
+      "expected_hr_pa": 0.03027,
+      "pf_two_sided_raw": 1.0714,
+      "pf_two_sided_shrunk": 1.0592
+    },
+    "TOR": {
+      "home_team": "TOR",
+      "n_pa": 24363,
+      "n_hr": 791,
+      "observed_hr_pa": 0.03247,
+      "expected_hr_pa": 0.02979,
+      "pf_two_sided_raw": 1.0899,
+      "pf_two_sided_shrunk": 1.0746
+    },
+    "WSH": {
+      "home_team": "WSH",
+      "n_pa": 24613,
+      "n_hr": 729,
+      "observed_hr_pa": 0.02962,
+      "expected_hr_pa": 0.02729,
+      "pf_two_sided_raw": 1.0852,
+      "pf_two_sided_shrunk": 1.0708
+    }
+  }
+}

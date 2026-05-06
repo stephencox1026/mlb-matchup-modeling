@@ -1,0 +1,133 @@
+---
+description: Defines the 9 daily output sections and mandates they always display in chat
+alwaysApply: true
+---
+
+# Daily Output Sections — Always Show In Chat
+
+When the user asks to "update sections 1-9," "show sections 1-9," "refresh the data and run the model," or any variant requesting the daily output, **ALL sections must be printed directly in the chat** in this order: **0, 1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 14, 15**. Sections 7, 8, and 10 stay in markdown files only. Never save the chat sections to a file only. Never summarize. Never skip a section. Never abbreviate. The chat IS the deliverable.
+
+## Section Definitions
+
+### Section 0: Bucket Health (drift monitor) — PRINT FIRST
+Source: `data/reports/section_0_drift.md`. Built by `src/monitor_calibration_drift.py` and refit automatically inside `run_dual_model_daily.py`.
+
+| Target | Bucket | n | n PA | Predicted | Realized | Lift | Status | Note |
+|---|---|---:|---:|---:|---:|---:|---|---|
+
+- **Status** values: HEALTHY / WARN (5-10% drift; auto-refit triggered) / CRITICAL (>10% drift OR High bucket lift below 1.0×) / INSUFFICIENT (n=0).
+- If any row is CRITICAL, surface it as a callout above the table — **the user reads this BEFORE betting**.
+- Source data: rolling 14-day vs-SP outcomes from `data/tracking/matchup_predictions_runs.parquet`.
+
+### Section 1: Top 25 — Home Runs
+Table ranked by **raw `p_hr`** (descending; per-PA P after vs-hand + BvP posterior blend). Columns:
+
+| Rank | Batter vs Pitcher | Score | Cal P(HR) | Raw P(HR) | 3-PA | Conf | Confidence | Career HR Rate | BvP |
+|---:|---|---:|---:|---:|---:|---:|---|---|---|
+
+- **Score** = ranking score (raw P × confidence factor). NOT a probability — display only; sort key is **`p_hr`**. Field name in JSON: `score_hr` (alias `adj_p_hr` for back-compat).
+- **Cal P(HR)** = calibrated probability (= raw P until C1 isotonic recalibration ships). Field name in JSON: `p_hr_calibrated`.
+- **Raw P(HR)** = raw model output, untouched per-PA probability. Field name in JSON: `p_hr`.
+- **3-PA** = `1-(1-raw_p_hr)^3` as percentage
+- **Career HR Rate** = career HRs / career PAs with rate shown (e.g. "6.1% (264 HR)")
+- **BvP** = career PAs vs this pitcher: X-for-Y (.BA), X Ks — or "No BvP history"
+
+### Section 2: Top 25 — Hits
+Table ranked by **raw `p_hit`** (descending; per-PA P after vs-hand + BvP posterior blend). Columns:
+
+| Rank | Batter vs Pitcher | Score | Cal P(Hit) | Raw P(Hit) | 3-PA | Conf | Confidence | Career BA | BvP |
+|---:|---|---:|---:|---:|---:|---:|---|---|---|
+
+Same BvP format as Section 1. Same Score / Cal P / Raw P semantics.
+
+### Section 3: Top 25 — Extra-Base Hits (XBH)
+Table ranked by **raw `p_xbh`** (descending; per-PA P after vs-hand + BvP posterior blend). Columns:
+
+| Rank | Batter vs Pitcher | Score | Cal P(XBH) | Raw P(XBH) | 3-PA | Conf | Confidence | Career XBH Rate | BvP |
+|---:|---|---:|---:|---:|---:|---:|---|---|---|
+
+### Section 4: BvP-Favorable — Home Runs
+Top 25 **filtered to batters with BvP HR > 0 against tonight's pitcher**, then **sorted by BvP HR count descending** (most career HRs vs this pitcher first). Ties broken by **raw `p_hr`** descending. Same table columns as Section 1 plus BvP HR count column. If fewer than 25 qualify, show all that do.
+
+### Section 5: BvP-Favorable — Hits
+Top 25 **filtered to batters with BvP BA ≥ .250 and PA ≥ 5 against tonight's pitcher**, then **sorted by BvP hits descending** (most career hits vs this pitcher first). Ties broken by **raw `p_hit`** descending. Same table columns as Section 2 plus BvP hits column. If fewer than 25 qualify, show all that do.
+
+### Section 6: BvP-Favorable — XBH
+Top 25 **filtered to batters with BvP XBH > 0 against tonight's pitcher**, then **sorted by BvP XBH count descending** (most career XBH vs this pitcher first). Ties broken by **raw `p_xbh`** descending. Same table columns as Section 3 plus BvP XBH count column. If fewer than 25 qualify, show all that do.
+
+### Section 7: Top 10 HR Full Analysis
+For each of the top 10 batters by **raw `p_hr`** (after posterior blend), produce the **full gold-standard HR description** as defined in `homerun-analysis.mdc`. Every single one of the 10 must include ALL of:
+
+1. **Header Block** — Title, Model line (Raw/Adj/Conf/Grade), 3-PA probability line with formula, Confidence factors line (all 6 factors)
+2. **Career Power Profile** — HRs, PAs, HR rate vs 3.1% league with multiplier and editorial, peak season, EV mean/max vs ~104 league, LA mean with shape comment, HR by pitch type (top 5-6 with count AND BA), multi-sentence narrative connecting to pitcher's arsenal with "That's the math:", one-sentence summary
+3. **The [Pitcher]-Specific HR Case** — BvP line with editorial framing, HR table (Date/Pitch/Velo/EV/LA) if exists, narrative on contact quality + arsenal connection, BvP K rate with editorial, what-happens-when-he-connects narrative
+4. **[Pitcher]'s HR Vulnerability** — Career HR allowed/PA/rate vs league with editorial, HR by pitch type, fastball velo/usage with editorial, 2026 stats (ERA/WHIP/BB9/IP/HR) with strong editorial on current form, handedness splits with rate, K%/BB% with HR-variance context
+5. **Where [Batter] Ranks Tonight** — Rank of total by raw P(HR) with percentile, rank within team
+6. **The Verdict on the HR Bet** — Three bold-labeled paragraphs: **For** (multi-sentence), **Against** (multi-sentence, honest), **Net** (raw P per PA → 3-PA formula → 1-in-X odds → rank → positioning statement with conditional)
+
+**Do NOT shorten these. Each write-up should be roughly the same length as the Brandon Lowe canonical example (~400-500 words).**
+
+### Section 8: Top 10 Hit Full Analysis
+For each of the top 10 batters by **raw `p_hit`** (after posterior blend), produce the **full gold-standard Hit description** as defined in `hit-analysis.mdc`. Every single one of the 10 must include ALL of:
+
+1. **Header Block** — Title, Model line (Raw/Adj/Conf/Grade), 3-PA probability line with formula, Confidence factors line (all 6 factors)
+2. **Career Contact Profile** — Hits, PAs, BA vs .243 league with editorial, K rate vs ~22% league, doubles/HR for XBH context, EV on hits mean, hits by pitch type (top 5-6 with count AND BA), pitch-group splits (BA/EV/whiff vs fastball/breaking/offspeed), multi-sentence narrative connecting to pitcher's arsenal, one-sentence contact summary
+3. **The [Pitcher]-Specific Hit Case** — BvP line with editorial framing (Strong/Struggled/No BvP/Tiny sample), BvP K rate with editorial, narrative connecting BvP to arsenal and pitch-type matchup logic
+4. **[Pitcher]'s Hit Vulnerability** — BA allowed with hit count/AB vs league, K rate and BB rate with context, arsenal breakdown (fastball %/velo, breaking %, offspeed %), BA by batter handedness with editorial, 2026 stats with strong editorial on current form
+5. **Where [Batter] Ranks Tonight** — Rank of total by raw P(Hit) with percentile, rank within team
+6. **The Verdict on the Hit Bet** — Three bold-labeled paragraphs: **For** (multi-sentence), **Against** (multi-sentence, honest), **Net** (raw P per PA → 3-PA formula → 1-in-X odds → rank → positioning statement with conditional)
+
+**Do NOT shorten these. Each write-up should be roughly the same length as the HR canonical example (~400-500 words).**
+
+### Section 9: Starting Pitcher Run Predictions
+Table showing predicted runs allowed for each starter in every game. Columns:
+
+| Matchup | Away Starter (pred runs) | Confidence | Home Starter (pred runs) | Confidence |
+|---|---:|---|---:|---|
+
+- **pred runs** = predicted runs allowed with interval range in parentheses, e.g. "3.42 (1.8–5.1)"
+- **Confidence** = from conformal prediction intervals (High/Medium/Low/Very Low)
+- Source: `data/reports/todays_starter_run_expectancies.json`
+- If a pitcher is TBD, show "TBD" with no prediction
+
+### Section 14: Conviction Picks
+Source: `data/reports/section_14_conviction_picks.md`. Built by `src/gen_conviction_picks.py`.
+
+The per-batter betting deliverable. Filtered to picks where the **M1 meta-model label = "Lock"** (top-10% predicted probability) — falls back to hand-tuned `conf_*_label = "High"` only if M1 hasn't run yet.
+
+For each of HR / Hit / XBH:
+
+| # | Matchup | Score | Cal P(...) | Raw P(...) | 3-PA | Conf Factors | BvP |
+
+Then a per-batter trailing 14-day streak block (H / HR / XBH counts) for context.
+
+Footer: copy of Section 0's bucket health table so the reader sees current trust state right at the bet.
+
+If a target has zero Lock picks, print `"No Lock picks for this target tonight."` — do NOT silently omit the subsection.
+
+### Section 15: No HR Model — P(0 HR) per game (PRINT LAST)
+Source: `data/reports/section_15_zero_hr.md`. Built by `src/gen_zero_hr_predictions.py`.
+
+Per-game probability that the entire game produces **zero home runs**. Uses Negative-Binomial-calibrated zero formula on the slot-weighted sum of per-PA HR probabilities (calibrated by C1) plus league-avg bullpen contribution, multiplied by the two-sided park HR factor (L2) and a **live weather multiplier** (Open-Meteo forecast at the stadium for the first-pitch hour). NB dispersion `k = 12.65` fit on 2022-2024 bulk; without NB, the Poisson approximation under-predicts zero-HR rate by ~3 percentage points.
+
+| Rank | Matchup | Park | Enc. | PF | Temp | Wind | Wx Mult | λ_total | E[HR] | **P(0 HR)** | Away SP (BF̂) | Home SP (BF̂) |
+
+- **Sorted by highest P(0 HR)** — top of the list = best target for an Under-HR / no-HR-game prop.
+- **PF** = two-sided park HR factor from `data/priors/park_hr_factors.json` (CIN 1.23× to SF 0.81×).
+- **Temp / Wind** = Open-Meteo forecast at the stadium's lat/lon for the first-pitch hour. Wind is reported in mph plus orientation relative to dead-center field (out_to_cf / in_from_cf / cross / calm / indoor).
+- **Wx Mult** = HR-carry multiplier from temp + wind. >1 = HR-friendly conditions (lowers P(0 HR)); <1 = HR-suppressing (raises P(0 HR)). Indoor games (fixed dome OR retractable+closed roof) get mult 1.0.
+- **BF̂** = batters faced by starter, conditioned on Section 9 projected runs (heavier projection → shorter outing).
+- **λ_total** = expected HRs in the game (park × weather adjusted).
+- League baseline P(0 HR) ≈ 12% — a number meaningfully above that is a real signal.
+
+**Refresh near first pitch:** for the freshest weather + posted MLB roof state, run `python3 src/refresh_game_conditions_today.py` ~90 minutes before the slate starts. It re-fetches weather + roof, regenerates only Section 15 + the dashboard No HR Model tab (not the heavy prediction pipeline), and prints a diff of what changed.
+
+## Output Rules
+
+1. **Always in chat.** Every section prints directly in the conversation. No "see file X" redirects.
+2. **Always all sections.** Print sections **0, 1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 14, 15** in chat (skip 7, 8, 10 — those are markdown-only). If data is missing for a section, say so explicitly in that section's spot rather than omitting it.
+3. **Section headers required.** Each section starts with `## Section N: [Title]` so the user can scan.
+4. **Order is fixed.** Section 0 first → Sections 1-6 → Section 9 → Sections 11-13 → Section 14 → Section 15 last. Always.
+5. **Section 7 and 8 are the longest.** They contain 10 full write-ups each. Do not compress them into tables or one-liners. Each write-up follows the gold-standard template verbatim.
+6. **Tables use markdown.** All tables use standard markdown table syntax with alignment.
+7. **Data sources for tables:** `data/reports/todays_matchup_predictions.json` for Sections 1-8 + 14, `data/reports/todays_starter_run_expectancies.json` for Section 9, `data/reports/section_0_drift.md` for Section 0, `data/reports/section_15_zero_hr.md` for Section 15, supplemented by `statcast_pa_level_league.parquet`, `pitcher_profiles_by_season.parquet`, `batter_pitch_profiles.parquet`, `qualifying_pitchers_2026.csv`, `qualifying_batters_2026.csv` for the full narratives.

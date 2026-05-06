@@ -1,0 +1,10 @@
+{
+  "k_mle": 12.653,
+  "k_method_of_moments": 12.645,
+  "fit_window": "2022-2024 bulk Statcast game-level HR counts",
+  "n_games": 7289,
+  "mean_hr_per_game": 2.269,
+  "var_hr_per_game": 2.676,
+  "expected_p0_at_mean_lambda_poisson": 0.1035,
+  "expected_p0_at_mean_lambda_nb": 0.1241
+}

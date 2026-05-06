@@ -1,0 +1,8 @@
+model,brier,log_loss,roc_auc,avg_precision,mean_pred,actual_rate,calibration_gap,dropped_group,n_dropped
+ablate_rolling_10,0.16211,0.49672,0.6549,0.3101,0.2273,0.2185,0.0088,rolling_10,7
+ablate_rolling_30,0.16206,0.49663,0.6552,0.3117,0.2273,0.2185,0.0088,rolling_30,7
+ablate_rolling_100,0.16219,0.49702,0.6541,0.3092,0.2276,0.2185,0.0091,rolling_100,7
+ablate_career_splits,0.16203,0.49656,0.6551,0.3124,0.2261,0.2185,0.0076,career_splits,8
+ablate_statcast_ev_la,0.16215,0.49688,0.6541,0.3113,0.2272,0.2185,0.0087,statcast_ev_la,6
+ablate_barrel,0.16208,0.49665,0.655,0.3111,0.2271,0.2185,0.0086,barrel,3
+ablate_context,0.17073,0.52491,0.5218,0.2302,0.225,0.2185,0.0065,context,5

@@ -1,0 +1,25 @@
+config,n_features,roc_auc,brier,target
+Full (all 79),78,0.78146,0.13568,is_hit
+No BvP,73,0.78133,0.13574,is_hit
+No Pitcher Profile,53,0.6559,0.162,is_hit
+No Pitcher (any),48,0.65643,0.16195,is_hit
+No Batter Pitch-Type,67,0.78263,0.13527,is_hit
+BvP Only + Context,13,0.65261,0.16218,is_hit
+Pitcher Only + Context,33,0.78093,0.13585,is_hit
+Batter Only,48,0.65643,0.16195,is_hit
+Full (all 79),78,0.76081,0.02824,is_hr
+No BvP,73,0.76091,0.02825,is_hr
+No Pitcher Profile,53,0.71333,0.02861,is_hr
+No Pitcher (any),48,0.71254,0.02862,is_hr
+No Batter Pitch-Type,67,0.76252,0.02823,is_hr
+BvP Only + Context,13,0.6765,0.02877,is_hr
+Pitcher Only + Context,33,0.7432,0.02839,is_hr
+Batter Only,48,0.71254,0.02862,is_hr
+Full (all 79),78,0.85893,0.1212,is_strikeout
+No BvP,73,0.85899,0.12118,is_strikeout
+No Pitcher Profile,53,0.77648,0.14525,is_strikeout
+No Pitcher (any),48,0.77611,0.14529,is_strikeout
+No Batter Pitch-Type,67,0.86038,0.1204,is_strikeout
+BvP Only + Context,13,0.76138,0.14787,is_strikeout
+Pitcher Only + Context,33,0.85428,0.12278,is_strikeout
+Batter Only,48,0.77611,0.14529,is_strikeout

@@ -1,0 +1,76 @@
+---
+description: Trigger phrase `update now` refreshes yesterday slate and returns dual-model sections with file persistence
+alwaysApply: true
+---
+
+# Update Now Macro
+
+When the user message is exactly `update now`, run this workflow.
+
+## Intent
+
+Refresh data and models for the prior-day slate, preserve artifacts for later analysis, and present chat output for all sections except 7, 8, and 10.
+
+## Execution
+
+1. Run (refreshes `qualifying_batters_2026.csv` for **Residual longshots** YTD unless `--skip-fetch-qualifying-batters`):
+- `PYTHONPATH=src python3 src/run_dual_model_daily.py --date <yesterday>`
+
+2. Ensure artifacts are saved:
+- `data/raw/todays_matchups.json`
+- `data/raw/statcast_pa_level_league.parquet` (after prior-day append attempt)
+- `data/reports/todays_matchup_predictions.json`
+- `data/reports/todays_matchup_predictions_exp.json`
+- `data/reports/todays_starter_run_expectancies.json`
+- `data/reports/section_0_drift.md` (per-bucket health; auto-refits per-bucket isotonic on >5% drift)
+- `data/reports/section_14_conviction_picks.md` (M1 Lock picks)
+- `data/reports/conf_bucket_calibration.md`
+- `data/reports/data_quality_report.md` (data-quality post-run audit; pure-default rows + coverage by `data_quality` tag)
+- `data/reports/sections_1_6.md`
+- `data/reports/sections_1_6_prod.md`
+- `data/reports/sections_1_6_exp.md`
+- `data/reports/section_7_prod.md`, `section_8_prod.md`, `section_10_prod.md`
+- `data/reports/section_7_exp.md`, `section_8_exp.md`, `section_10_exp.md`
+- `data/reports/section_9.md`
+- `data/reports/archive/<slate_date>/...`
+
+3. Regenerate barrel sections with last-7-day window:
+- `python3 src/gen_sections_11_13.py --recent-days 7`
+- Saves `section_11.md`, `section_12.md`, `section_13.md`, `sections_11_13.md`
+
+4. Create and save a combined markdown deliverable excluding longform sections:
+- `data/reports/todays_sections_excluding_7_8_10.md`
+
+## Chat Output Requirements
+
+Always print in chat:
+- **Section 0 (Bucket Health / Drift) FIRST** — print at the very top, before any predictions. This is the trust meter; if any bucket is CRITICAL, the user reads that before betting.
+- Section 1 (HR), Section 2 (Hit), Section 3 (XBH), Section 4 (BvP HR), Section 5 (BvP Hit), Section 6 (BvP XBH), Section 9, Section 11, Section 12, Section 13.
+- **Section 14 (Conviction Picks)** — the M1 Lock picks across HR / Hit / XBH with bucket health footer.
+- **Section 15 (No HR Model)** — per-game P(0 HR), printed LAST. Best target for an Under-HR / no-HR-game prop.
+
+Never print sections 7, 8, 10 in chat; keep them in markdown files.
+
+For Sections 1-6, output production and experiment side-by-side in a single table with these columns:
+
+| # | Model 1 (prod) batter vs pitcher | Adj P | Conf | Career vs SP | Model 2 (exp) batter vs pitcher | Adj P | Conf | Career vs SP |
+|---:|---|---:|---|---|---|---:|---|---|
+
+Career vs SP format:
+- `H/AB, XBH, HR, K, BB`
+- Use `—` if no BvP history.
+
+Confidence label normalization:
+- Convert `Very Low` to `Low` for display.
+
+Ranking method:
+- Section 1 by raw `p_hr`
+- Section 2 by raw `p_hit`
+- Section 3 by raw `p_xbh`
+- Section 4-6 use same BvP filters as `daily-output-sections.mdc`, then sort by BvP count desc and raw `p_hr` / `p_hit` / `p_xbh` desc as tiebreakers.
+
+## Failure Handling
+
+If a command fails:
+- report the failing command and a concise error in chat
+- stop and ask whether to retry
